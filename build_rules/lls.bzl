@@ -52,7 +52,7 @@ _lls_repository_head = repository_rule(
     implementation = _lls_repository_head_impl,
 )
 
-def lls_repository(name, path, commit = None, tag = None, use_local_version = 0):
+def lls_repository(name, path, commit = None, tag = None, branch = None, use_local_version = 0):
     """A liulishuo repository.
 
     If neither commit nor tag is specified, which should be the default case, then
@@ -64,6 +64,7 @@ def lls_repository(name, path, commit = None, tag = None, use_local_version = 0)
       git.llsapp.com/common/protos will have path name common/protos.
     commit: (string) Commit.
     tag: (string) Tag.
+    branch: (string) Branch.
     use_local_version: (int) If 1, use the local mirror of the repository. This
       assumes that the local folder structure mirrors that one on gitlab.
     """
@@ -74,7 +75,7 @@ def lls_repository(name, path, commit = None, tag = None, use_local_version = 0)
         )
     importpath = "git.llsapp.com/" + path
     remote = "git@git.llsapp.com:" + path + ".git"
-    if commit or tag:
+    if commit or tag or branch:
         # This is a temporary hack as only go_repository supports pulling code using
         # git@... protocol. Bazel only supports https, which happens to be not
         # supported by our gitlab: (.)
@@ -90,6 +91,7 @@ def lls_repository(name, path, commit = None, tag = None, use_local_version = 0)
             vcs = "git",
             commit = commit,
             tag = tag,
+            branch = branch,
         )
 
     # No commit or tag specified, just pull from the master head.
