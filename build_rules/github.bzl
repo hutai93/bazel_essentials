@@ -70,7 +70,7 @@ def github_new_http_archive(name, package, build_file = None, build_file_content
         build_file_content = build_file_content,
     )
 
-def github_go_repository(name, package, importpath = "", commit = None, tag = None, sha256 = ""):
+def github_go_repository(name, package, importpath = "", commit = None, tag = None, branch = None, sha256 = ""):
     """Adding go repository from github and convert it to bazel repository.
 
     Note that for now the dependencies will not be pulled in automatically. You
@@ -87,6 +87,7 @@ def github_go_repository(name, package, importpath = "", commit = None, tag = No
         github.com/Shopify/sarama.
       commit: (string) Commit number.
       tag: (string) Commit tag. Exactly one of commit or tag is required.
+      branch: (string) Branch.
       importpath: (string) Optionally override the import path.
       sha256: (string) Optional checksum.
     """
@@ -99,6 +100,7 @@ def github_go_repository(name, package, importpath = "", commit = None, tag = No
         remote = remote,
         vcs = "git",
         commit = commit,
+        branch = branch,
         tag = tag,
         sha256 = sha256,
     )
